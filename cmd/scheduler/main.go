@@ -38,6 +38,9 @@ import (
 	"sigs.k8s.io/scheduler-plugins/pkg/trimaran/lowriskovercommitment"
 	"sigs.k8s.io/scheduler-plugins/pkg/trimaran/targetloadpacking"
 
+	// Custom scheduler plugin
+	"sigs.k8s.io/scheduler-plugins/pkg/memoryfilter"
+
 	// Ensure scheme package is initialized.
 	_ "sigs.k8s.io/scheduler-plugins/apis/config/scheme"
 )
@@ -62,6 +65,9 @@ func main() {
 		// app.WithPlugin(crossnodepreemption.Name, crossnodepreemption.New),
 		app.WithPlugin(podstate.Name, podstate.New),
 		app.WithPlugin(qos.Name, qos.New),
+
+		// Custom plugin
+		app.WithPlugin(memoryfilter.MemoryFilterName, memoryfilter.New),
 	)
 
 	code := cli.Run(command)
